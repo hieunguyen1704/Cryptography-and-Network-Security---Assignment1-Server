@@ -51,9 +51,15 @@ router.post('/encrypt',upload.array("file_to_encrypt"),(req,res) => {
     }else{
       try {
         let q = new RSA(key);
-        q.encryptedFile(filePath,pathToReceiveFile);
+        isNotError = q.encryptedFile(filePath,pathToReceiveFile);
+        console.log(isNotError);
+        if(!isNotError){
+          res.send("Something went wrong, please check your key or your files.");
+          return;
+        }
       } catch (error) {
         console.error(error.message);
+        return;
       }
     }
   }
@@ -72,7 +78,7 @@ router.post('/decrypt',upload.array("file_to_encrypt"),(req,res) => {
     var filePath = handlePath(req.files[i].path);
     const key = req.body.content_key;
     filePath = path.join(__dirname,'./',filePath);
-    console.log(req.body);
+    // console.log(req.body);
     if(req.body.algorithms == 'aes'){
       let k = new AES();
       // const mypath = filePath;

@@ -3,28 +3,30 @@ const fs = require('fs');
 const sha256 = require('sha256');
 class RSA{
     constructor(key){
-        this.key = new NodeRSA(key);
-        // this.public_key =  this.key.exportKey('public');
-        // this.private_key = this.key.exportKey('private');
+        this.key = key
     }
     encryptedFile = (filePath,pathToReceiveFile) =>{
-        const file = fs.readFileSync(filePath);
-        // console.log(filePath);
-        const encryptedFile = this.key.encrypt(file);
-        let arr_path = filePath.split('\\');
-        let newPath = pathToReceiveFile + arr_path[arr_path.length-1]+".enc";
-        console.log(newPath);
-        fs.writeFileSync(newPath, encryptedFile);
-        return;
+        try {
+            const keyEnc = new NodeRSA(this.key);
+            const file = fs.readFileSync(filePath);
+            const encryptedFile = keyEnc.encrypt(file);
+            let arr_path = filePath.split('\\');
+            let newPath = pathToReceiveFile + arr_path[arr_path.length-1]+".enc";
+            console.log(newPath);
+            fs.writeFileSync(newPath, encryptedFile);
+        } catch (error) {
+            return false;
+        }
+        return true;
     }
     decryptFile = (filePath,pathToReceiveFile) =>{
         try {
+            const keyDec = new NodeRSA(this.key)
             const file = fs.readFileSync(filePath);
-            const decryptFile = this.key.decrypt(file);
+            const decryptFile = keyDec.decrypt(file);
             let arr_path = filePath.split('\\');
             let newPath = pathToReceiveFile + arr_path[arr_path.length-1];
             newPath = newPath.replace(/\.enc$/, '');
-            // console.log(newPath);
             fs.writeFileSync(newPath,decryptFile);
         } catch (error) {
             return false;
