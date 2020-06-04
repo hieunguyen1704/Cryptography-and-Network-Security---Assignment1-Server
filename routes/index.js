@@ -40,10 +40,11 @@ router.get('/', function(req, res, next) {
 
 router.post('/encrypt',upload.array("file_to_encrypt"),(req,res) => {
   const cutDirname = __dirname.split('\\');
-  let pathToReceiveFile = cutDirname[0] + "\\" + cutDirname[1]+"\\" + cutDirname[2] + "\\" + cutDirname[3] + "\\" + "encrypt_file" + "\\" ; // luu path client lay file
-  if (!pathToReceiveFile){
-    pathToReceiveFile = cutDirname[0] + "\\" + cutDirname[1]+"\\";
-  }
+  // let pathToReceiveFile = cutDirname[0] + "\\" + cutDirname[1]+"\\" + cutDirname[2] + "\\" + cutDirname[3] + "\\" + "encrypt_file" + "\\" ; // luu path client lay file
+  // console.log(pathToReceiveFile);
+  // if (!pathToReceiveFile){
+  let  pathToReceiveFile = cutDirname[0] + "\\" + cutDirname[1]+"\\";
+  // }
   for(var i = 0; i <req.files.length;i++){
     var filePath = handlePath(req.files[i].path);
     const key = req.body.content_key;
@@ -73,10 +74,10 @@ router.post('/encrypt',upload.array("file_to_encrypt"),(req,res) => {
 router.post('/decrypt',upload.array("file_to_encrypt"),(req,res) => {
   const cutDirname = __dirname.split('\\');
   // console.log(cutDirname);
-  let pathToReceiveFile = cutDirname[0] + "\\" + cutDirname[1]+"\\" + cutDirname[2]  + "\\" + cutDirname[3] + "\\" + "decrypt_file" + "\\";
-  if (!pathToReceiveFile){
-    pathToReceiveFile = cutDirname[0] + "\\" + cutDirname[1]+"\\";
-  }
+  // let pathToReceiveFile = cutDirname[0] + "\\" + cutDirname[1]+"\\" + cutDirname[2]  + "\\" + cutDirname[3] + "\\" + "decrypt_file" + "\\";
+  // if (!pathToReceiveFile){
+  let  pathToReceiveFile = cutDirname[0] + "\\" + cutDirname[1]+"\\";
+  // }
   // console.log(req.body.content_key);
   var get_mac_check_fail = [];
 
